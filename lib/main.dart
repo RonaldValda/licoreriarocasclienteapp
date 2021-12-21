@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:licoreriarocasclienteapp/ui/pages/principal/page_principal.dart';
 import 'package:licoreriarocasclienteapp/ui/provider/cliente/clienteProvider.dart';
+import 'package:licoreriarocasclienteapp/ui/provider/producto/productoProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -17,12 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>ClienteProvider())
+        ChangeNotifierProvider(create: (_)=>ClienteProvider()),
+        ChangeNotifierProvider(create: (_)=>ProductoProvider())
       ],
       child: MaterialApp(
           title: 'Rocas App',
           theme: ThemeData(
             primarySwatch: Colors.indigo,
+            primaryColor: Colors.indigo
           ),
           debugShowCheckedModeBanner: false,
           home: PagePrincipal()

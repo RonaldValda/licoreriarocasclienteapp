@@ -6,4 +6,7 @@ class UseCaseCliente{
   Future<Map<String,dynamic>> autenticarCliente(Cliente cliente){
     return clienteRepository.autenticarCliente(cliente);
   }
+  Future<Map<String,dynamic>> registrarFechaNacimientoCliente(Cliente cliente){
+    return clienteRepository.registrarFechaNacimientoCliente(cliente);
+  }
 }

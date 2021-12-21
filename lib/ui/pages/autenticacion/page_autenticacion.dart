@@ -5,6 +5,7 @@ import 'package:licoreriarocasclienteapp/domain/usecases/auntenticacion_externos
 import 'package:licoreriarocasclienteapp/domain/usecases/cliente/usecase_cliente.dart';
 import 'package:licoreriarocasclienteapp/ui/pages/autenticacion/widgets/dialog_fecha_nacimiento.dart';
 import 'package:licoreriarocasclienteapp/ui/provider/cliente/clienteProvider.dart';
+import 'package:licoreriarocasclienteapp/ui/provider/producto/productoProvider.dart';
 import 'package:licoreriarocasclienteapp/ui/widgets/text_fields.dart';
 import 'package:fluttericon/zocial_icons.dart' as zocial_i;
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _PageAutenticacionState extends State<PageAutenticacion> {
   @override
   Widget build(BuildContext context) {
     final clienteProvider=Provider.of<ClienteProvider>(context);
+    final productoProvider=Provider.of<ProductoProvider>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -107,9 +109,22 @@ class _PageAutenticacionState extends State<PageAutenticacion> {
                   useCaseCliente.autenticarCliente(cliente)
                   .then((resultado)async{
                     if(resultado["completado"]){
+                      cliente=resultado["cliente"];
                       if(cliente.fechaNacimiento==""){
                         String fechaNacimiento=await dialogFechaNacimiento(context);
+                        cliente.fechaNacimiento=fechaNacimiento;
+                        useCaseCliente.registrarFechaNacimientoCliente(cliente)
+                        .then((resultado){
+                          if(resultado["completado"]){
+                            clienteProvider.sesionIniciada=true;
+                            productoProvider.consultarBD=true;
+                            clienteProvider.setCliente(cliente);
+                            Navigator.pop(context);
+                          }
+                        });
+                      }else{
                         clienteProvider.sesionIniciada=true;
+                        productoProvider.consultarBD=true;
                         clienteProvider.setCliente(cliente);
                         Navigator.pop(context);
                       }

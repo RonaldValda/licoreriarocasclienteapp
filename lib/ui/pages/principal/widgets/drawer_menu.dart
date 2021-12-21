@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:licoreriarocasclienteapp/domain/entities/cliente.dart';
 import 'package:licoreriarocasclienteapp/ui/pages/autenticacion/page_autenticacion.dart';
 import 'package:licoreriarocasclienteapp/ui/provider/cliente/clienteProvider.dart';
+import 'package:licoreriarocasclienteapp/ui/provider/producto/productoProvider.dart';
 import 'package:provider/provider.dart';
 class DrawerMenu extends StatefulWidget {
   DrawerMenu({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     final clienteProvider=Provider.of<ClienteProvider>(context);
+    final productoProvider=Provider.of<ProductoProvider>(context);
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -97,6 +99,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                 );
                               }else{
                                 clienteProvider.sesionIniciada=false;
+                                productoProvider.consultarBD=true;
                                 clienteProvider.setCliente(Cliente.vacio());
                               }
                             }, 

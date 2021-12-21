@@ -21,8 +21,8 @@ class ClienteRepository extends AbstractClienteRepository{
         ),
         onCompleted: (data){
           if(data!=null){
-            print(data);
             cliente=Cliente.fromMap(data["autenticarCliente"]);
+            print(cliente.toMap());
           }
         },
         onError: (error){
@@ -36,6 +36,38 @@ class ClienteRepository extends AbstractClienteRepository{
     );
     map["completado"]=completado;
     map["cliente"]=cliente;
+    map["mensaje_error"]=mensajeError;
+    return map;
+  }
+
+  @override
+  Future<Map<String, dynamic>> registrarFechaNacimientoCliente(Cliente cliente) async{
+    Map<String,dynamic> map={};
+    String mensajeError="";
+    bool completado=true;
+    GraphQLConfiguration configuration=GraphQLConfiguration();
+    graphql.GraphQLClient client=configuration.myGQLClient();
+    await client
+    .mutate(
+      graphql.MutationOptions(
+        document: graphql.gql(getMutationRegistrarFechaNacimientoCliente()),
+        variables: (
+          cliente.toMap()
+        ),
+        onCompleted: (data){
+          if(data!=null){
+          }
+        },
+        onError: (error){
+          error!.graphqlErrors.forEach((element) { 
+            mensajeError=element.message;
+          });
+          //mensajeError=error!.graphqlErrors[0].message;
+          completado=false;
+        }
+      )
+    );
+    map["completado"]=completado;
     map["mensaje_error"]=mensajeError;
     return map;
   }

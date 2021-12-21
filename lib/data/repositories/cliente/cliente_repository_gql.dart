@@ -37,3 +37,17 @@ String getMutationAuntenticarCliente(){
   """;
   return query;
 }
+String getMutationRegistrarFechaNacimientoCliente(){
+  String query="";
+  query=r"""
+  mutation registrarFechaNacimientoCliente(
+    $id:ID,$fecha_nacimiento:String
+  ){
+    registrarFechaNacimientoCliente(
+      id:$id
+      fecha_nacimiento:$fecha_nacimiento
+    )
+  }
+  """;
+  return query;
+}

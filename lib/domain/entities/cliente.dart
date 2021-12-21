@@ -1,3 +1,5 @@
+import 'package:licoreriarocasclienteapp/domain/entities/producto.dart';
+
 class Cliente{
   String id;
   String ciNit;
@@ -74,6 +76,43 @@ class Cliente{
       "medio_registro":this.medioRegistro,
       "telefono":this.telefono,
       "estado_cuenta":this.estadoCuenta
+    };
+  }
+}
+class ClienteFavorito{
+  String id;
+  Producto producto;
+  Cliente cliente;
+  bool favorito;
+  ClienteFavorito({
+    required this.id, required this.producto,
+    required this.cliente,required this.favorito
+  });
+  factory ClienteFavorito.vacio(){
+    return ClienteFavorito(
+      id: "", producto: Producto.vacio(), 
+      cliente: Cliente.vacio(), 
+      favorito: false
+    );
+  }
+  factory ClienteFavorito.fromMap(Map<String,dynamic> data){
+    return ClienteFavorito(
+      id: data["id"]??"", producto: data["producto"]!=null?Producto.fromMap(data["producto"]):Producto.vacio(), 
+      cliente: data["cliente"]!=null?Cliente.fromMap(data["cliente"]):Cliente.vacio(), favorito: data["favorito"]??false
+    );
+  }
+  factory ClienteFavorito.copyWith(ClienteFavorito cf){
+    return ClienteFavorito(
+      id: cf.id, producto: Producto.copyWith(cf.producto), 
+      cliente: Cliente.copyWith(cf.cliente), favorito: cf.favorito
+    );
+  }
+  Map<String,dynamic> toMap(){
+    return <String,dynamic>{
+      "id":this.id,
+      "producto":this.producto.id,
+      "cliente":this.cliente.id,
+      "favorito":this.favorito
     };
   }
 }
