@@ -11,5 +11,4 @@ class AuntenticacionExternosRepository extends AbstractAutenticacionExternos{
 
     return googleUsuario;
   }
-
 }
